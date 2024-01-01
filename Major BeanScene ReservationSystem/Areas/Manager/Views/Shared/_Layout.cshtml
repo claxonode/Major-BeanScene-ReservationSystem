@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Major_BeanScene_ReservationSystem</title>
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navStyling.css" />
+    <link rel="stylesheet" href="~/css/footerAndHeaderForLayouts.css" />
+</head>
+<body>
+    <header class="bg-dark">
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/BeanSceneLogo.png" alt="Bean Scene" width="50px" height="45px" /> Bean Scene
+                </a>
+                <button class="navbar-toggler border-1 bg-white m-2" type="button" data-bs-toggle="collapse" data-bs-target="#LayoutNavbar" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <img width="25px" height="30px" src="~/images/toggler-icon.svg" />
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="LayoutNavbar">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manager Access
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#" role="button"/>
+                                        Reservations &raquo;
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-submenu dropdown-submenu-left">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Staff" asp-action="SearchReservations" asp-controller="Home">Search Reservations</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Staff" asp-action="Create" asp-controller="Home">Create Reservation</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Staff" asp-controller="Home" asp-action="AssignTablesToReservations">Assign Tables</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" role="button">
+                                        Sittings &raquo;
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-submenu dropdown-submenu-left">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Manager" asp-controller="Sittings" asp-action="SearchSittings">Search Sittings</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Manager" asp-controller="Sittings" asp-action="Create">Create Sitting</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Manager" asp-controller="Home" asp-action="Calendar">View Calendar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <a class="dropdown-item" asp-area="Manager" asp-controller="Employee" asp-action="Index">Create Employees</a>   
+                            </ul>
+                        </li>     
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-center text-white bg-dark p-3 mt-4">
+        <div class="container">
+            &copy; 2023 - Bean Scene - Powered By Foie Gras
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/dropdownSubmenu.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

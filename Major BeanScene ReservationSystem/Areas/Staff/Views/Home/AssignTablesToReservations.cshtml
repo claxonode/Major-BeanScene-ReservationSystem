@@ -1,0 +1,111 @@
+﻿@model AssignTablesToReservations
+
+@{
+    var mainTables = Model.Tables.Where(t => t.AreaId == 1);
+    var balconyTables = Model.Tables.Where(t => t.AreaId == 2);
+    var outsideTables = Model.Tables.Where(t => t.AreaId == 3);
+}
+<head>
+    <link rel="stylesheet" href="~/css/assignTables.css" asp-append-version="true" />
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <div class="row">
+            <h3 class="text-center my-3">Assign Tables</h3>
+            @if (TempData["Error"] != null)
+            {
+                <partial name="_ErrorMessage"/>
+            }
+
+            <div class="col col-lg-8 col-md-7">
+                <div id="Tables">
+                    <div class="col">
+                        @await Html.PartialAsync("_BeanSceneAssignTables", mainTables)
+                    </div>
+                    <div class="col">
+                        @await Html.PartialAsync("_BeanSceneAssignTables", balconyTables)
+                    </div>
+                    <div class="col">
+                        @await Html.PartialAsync("_BeanSceneAssignTables", outsideTables)
+                    </div>   
+                </div>
+            </div>
+            <div class="col col-lg-4 col-md-5 ">
+                <div id="Reservations">
+                    <h4>Reservations on @DateTime.Now.ToString("d")</h4>
+                    @if (!Model.Reservations.Any())
+                    {
+                        <div>There are no confirmed reservations. Please confirm some reservations.</div>
+                    }
+                    else {
+                        <div id="dropareaReservations">
+                            <div class="col" id="appendReservationArea">
+                                @foreach (var reservation in Model.Reservations)
+                                {
+                                    <div class="col m-2 res-item" id="reservation@(reservation.Id)" data-resId="@(reservation.Id)" ondragstart="drag(event)" draggable="true">
+                                        <div class="m-2 text-center">
+                                            <span class="col"><span class="fw-bold">Reference No.</span> @reservation.Id</span>
+                                            <div class="col"><span class="fw-bold">Sitting Name:</span> @reservation.Sitting.Name</div>
+                                            <div class="col"><span class="fw-bold">Time:</span> @reservation.StartTime.ToString("t")-@reservation.EndTime.ToString("t")</div>
+                                            <div class="col">@reservation.Person.FullName</div>
+                                            <div class="col">Guests: @reservation.Guests</div>
+                                            <div class="col">Tables: @reservation.TablesToString</div>
+                                            <a class="col" href="UnassignAllTables/?id=@(reservation.Id)&redirect=AssignTablesToReservations">Unassign Tables<br /></a>
+                                            <a class="col" href="ChangeStatus/?ReservationId=@(reservation.Id)&ReservationStatus=5&redirect=AssignTablesToReservations">Complete Reservation</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        function drag(ev) {
+    
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+        function dropAtTable(ev) {
+            // ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            let reservationId = $("#" + data).attr("data-resId")
+            let tableId = ev.target.getAttribute("data-tableId")
+    
+            fetch(`/Staff/Home/AssignTable?TableId=${tableId}&ReservationId=${reservationId}`, {
+                method: "POST",
+            }).then(response => {
+                window.location.reload();
+            }).catch(error => {
+                console.error('Error:', error);
+            })
+        }
+        function dragover(ev) {
+            if (ev.target.classList.contains("dropzone")) {
+                ev.target.classList.add("dragover");
+            }
+        }
+
+        function dragleave(ev) {
+            if (ev.target.classList.contains("dropzone")) {
+                ev.target.classList.remove("dragover")
+            }
+        }
+
+    
+    </script>
+    
+}
+

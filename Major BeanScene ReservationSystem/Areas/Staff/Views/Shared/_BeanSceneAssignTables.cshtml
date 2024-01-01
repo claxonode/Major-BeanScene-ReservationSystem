@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Table>
+
+<div class="">
+    <h2>@Model.First().Area.Name Tables</h2>
+    @foreach (var table in Model)
+    {
+        var hasReservation = table.Reservations.Any();
+        var tableClass = hasReservation ? "reserved" : "";
+
+        <button class="col col-md-2 col-sm-6 m-2 item @tableClass">
+            <div class="text-center g-1 dropzone" data-tableId="@table.Id" ondragenter="dragover(event)"
+                 ondragleave="dragleave(event)"
+                 ondragover="allowDrop(event)" ondrop="dropAtTable(event)">
+                    @table.Name
+                    @foreach (var r in table.Reservations)
+                    {
+                        <div class="text-center" >
+                            Id: @r.Id
+                        </div>
+                    }
+            </div>
+        </button>
+    }
+
+</div>

@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Major BeanScene ReservationSystem", "Major BeanScene ReservationSystem\Major BeanScene ReservationSystem.csproj", "{28A8C277-99FE-42F8-B3A3-78370F363C13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4FDD8AD-AC72-4FDD-9EC2-6FD69D5F0302}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{32E32058-0BAD-4566-8F0D-6C95DA628556}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Major BeanScene ReservationSystem Test", "Major BeanScene ReservationSystem Test\Major BeanScene ReservationSystem Test.csproj", "{D065337B-ADD5-4D57-8AB4-29373B6F9803}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM32 = Debug|ARM32
+		Release|Any CPU = Release|Any CPU
+		Release|ARM32 = Release|ARM32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{28A8C277-99FE-42F8-B3A3-78370F363C13}.Release|ARM32.Build.0 = Release|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Release|ARM32.ActiveCfg = Release|ARM32
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803}.Release|ARM32.Build.0 = Release|ARM32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{28A8C277-99FE-42F8-B3A3-78370F363C13} = {D4FDD8AD-AC72-4FDD-9EC2-6FD69D5F0302}
+		{D065337B-ADD5-4D57-8AB4-29373B6F9803} = {32E32058-0BAD-4566-8F0D-6C95DA628556}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {983E0034-E021-40DB-9F27-00358B619288}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/geoffreyli4
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Major\u0020BeanScene\u0020ReservationSystem\\Major\u0020BeanScene\u0020ReservationSystem.csproj
+		SccProjectTopLevelParentUniqueName1 = Major\u0020BeanScene\u0020ReservationSystem.sln
+		SccProjectName1 = Major\u0020BeanScene\u0020ReservationSystem
+		SccLocalPath1 = Major\u0020BeanScene\u0020ReservationSystem
+		SccProjectUniqueName2 = Major\u0020BeanScene\u0020ReservationSystem\u0020Test\\Major\u0020BeanScene\u0020ReservationSystem\u0020Test.csproj
+		SccProjectTopLevelParentUniqueName2 = Major\u0020BeanScene\u0020ReservationSystem.sln
+		SccProjectName2 = Major\u0020BeanScene\u0020ReservationSystem\u0020Test
+		SccLocalPath2 = Major\u0020BeanScene\u0020ReservationSystem\u0020Test
+	EndGlobalSection
+EndGlobal

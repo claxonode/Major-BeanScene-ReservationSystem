@@ -1,0 +1,63 @@
+﻿.dropzone.dragover {
+    background-color: #b27b43;
+}
+
+#Reservations {
+    border: 4px solid #b27b43;
+    border-radius:5px;
+    padding: 20px;
+    margin: 20px;
+    height: 700px;
+}
+
+#Tables {
+    border: 4px solid #b27b43;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+}
+
+#dropareaReservations a {
+    text-decoration: none;
+}
+
+#dropareaReservations a:hover {
+    text-decoration: underline;
+    color:#b27b43;
+}
+
+#dropareaReservations {
+    overflow-y: scroll;
+    height: 600px;
+}
+
+.res-item {
+    border: 2px solid #b27b43;
+}
+
+.res-item:hover {
+    border: 2px dotted #b27b43;
+}
+
+.item{
+    background-color:gray;
+}
+
+.reserved {
+    background-color: #b27b43 !important;
+}
+
+body {
+    margin: 0;
+    background-image: url('/images/homescreen.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+button {
+    
+}
+.main-container {
+    opacity: 95%;
+    color: white;
+}

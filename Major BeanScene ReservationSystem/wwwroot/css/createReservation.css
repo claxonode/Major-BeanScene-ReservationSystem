@@ -1,0 +1,30 @@
+﻿body {
+    margin: 0;
+    background-image: url('/images/homescreen.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-container {
+    opacity: 95%;
+    color: white;
+}
+
+.container-fluid a:hover {
+    color: #b27b43;
+}
+
+.form-group input[type="submit"] {
+    width: 120px; /* Adjust the width as needed */
+    padding: 5px 10px; /* Adjust the padding to control height and width */
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    display: block;
+}
+.form-group input[type="submit"]:hover {
+    background-color: #b27b43;
+}

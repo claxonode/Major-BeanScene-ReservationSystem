@@ -1,0 +1,149 @@
+﻿@model Major_BeanScene_ReservationSystem.Models.Reservation.Create
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Make a Reservation!</h1>
+
+<p>Create an Account? | <a asp-area="Identity" asp-page="/Account/Register">Register</a></p>
+<p>Already a Member? | <a asp-area="Identity" asp-page="/Account/Login">Login</a></p>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="reservationForm" asp-action="Create" method="post" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="e.g. John" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" placeholder="e.g. Smith" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="e.g. john@example.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingId" class="control-label"></label>
+                <select asp-for="SittingId" class="form-control" asp-items="Model.Sitting">
+                    <option value="">-- Please Select a Sitting --</option>
+                </select>
+                <span asp-validation-for="SittingId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                @* <input asp-for="StartTime" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" /> *@
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" placeholder="Length of your reservation in minutes" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <select id="numGuests" asp-for="NumberOfGuests" asp-items="@(new SelectList(Enumerable.Range(1, 10)))" class="form-control">
+                    <option value="">--Select the number of guests--</option>
+                </select>
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                <span id="guestsValidationError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalNotes" class="control-label"></label>
+                <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+                <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById("reservationForm").addEventListener("submit", function (event) {
+            const numGuests = document.getElementById("numGuests").value;
+            const guestsValidationError = document.getElementById("guestsValidationError");
+
+            if (numGuests > 10) {
+                guestsValidationError.textContent = "Maximum 10 guests allowed. Please contact us for larger groups.";
+                event.preventDefault();
+            } else {
+                guestsValidationError.textContent = "";
+            }
+        });
+
+
+        $(document).ready(function () {
+            $('#StartTime').on('change', function () {
+                var selectedDate = $(this).val();
+                let data = { "selectedDate": selectedDate }
+                fetch('/Reservation/UpdateCreateModel', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#SittingId').empty();
+                        if (data.sittingId.length === 0) {
+                            $('#SittingId').append($("<option/>").attr('value', '').text("No available sittings"));
+                        } else {
+                            $('#SittingId').append($("<option/>").attr('value', '').text(`${data.sittingId.length} available sittings`));
+                            $.each(data.sittingId, function (index, item) {
+                                $('#SittingId').append($("<option />").attr('value', item.value).text(item.text));
+                            });
+                        }
+                    })
+                    .catch(console.log("Error"))
+                // $.ajax({
+                //     type: 'POST',
+                //     url: '/Reservation/UpdateCreateModel',
+                //     data: { selectedDate: selectedDate },
+                //     success: function (data) {
+                //         // Update the model
+                //         $('#SittingId').empty();
+                //         if (data.sittingId.length === 0) {
+                //             $('#SittingId').append($("<option/>").attr('value','').text("No available sittings"));
+                //         }
+                //         else {
+                //             $('#SittingId').append($("<option/>").attr('value', '').text(`${data.sittingId.length} available sittings`));
+                //             $.each(data.sittingId, function (index, item) {
+                //                 $('#SittingId').append($("<option />").attr('value', item.value).text(item.text));
+                //             });
+                //         }
+
+
+                //     },
+                //     error: function (xhr, status, error) {
+                //         // Handle errors (if any)
+                //         console.log('Error:', error);
+                //     }
+                // });
+            });
+        });
+
+    </script>
+}
+

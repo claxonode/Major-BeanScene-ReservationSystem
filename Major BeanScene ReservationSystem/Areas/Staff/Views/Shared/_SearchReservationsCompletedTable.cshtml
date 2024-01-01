@@ -1,0 +1,131 @@
+﻿@model SearchReservations
+
+<head>
+    <style>
+        .btn-sm {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 8px 8px;
+            margin-left: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .table {
+            border: 3px solid #b27b43;
+        }
+
+            .table td > a {
+                text-decoration: none;
+            }
+
+                .table td > a:hover {
+                    text-decoration: underline;
+                    color: #b27b43;
+                }
+    </style>
+</head>
+
+<div class="table-responsive m-2">
+    <table border="1" class="table" width="100%">
+        <thead>
+            <tr>
+                <td>
+                    <a asp-action="SearchReservations"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-sortOrder="@ViewData["FirstNameSortParm"]"
+                       asp-route-statusId="@ViewData["CurrentStatus"]"
+                       asp-route-pageNumber="1"
+                       asp-route-pageSize="@ViewData["CurrentPageSize"]">
+                        First name
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="SearchReservations"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-sortOrder="@ViewData["LastNameSortParm"]"
+                       asp-route-statusId="@ViewData["CurrentStatus"]"
+                       asp-route-pageNumber="1"
+                       asp-route-pageSize="@ViewData["CurrentPageSize"]">
+                        Last name
+                    </a>
+                </td>
+                <td>Contact Details</td>
+                <td>
+                    <a asp-action="SearchReservations"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-sortOrder="@ViewData["ReservationStartTimeSortParm"]"
+                       asp-route-statusId="@ViewData["CurrentStatus"]"
+                       asp-route-pageNumber="1"
+                       asp-route-pageSize="@ViewData["CurrentPageSize"]">
+                        Reservation Start time
+                    </a>
+                </td>
+                <td>Guests</td>
+                <td>Assigned By</td>
+                <td>Notes</td>
+                <td>Sitting name</td>
+                <td>Start-End</td>
+                <td>Table</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var u in Model.Reservations)
+            {
+                <tr>
+                    <td>@u.Person.FirstName</td>
+                    <td>@(u.Person.LastName)</td>
+                    <td>
+                        @u.Person.Email <br /> @u.Person.PhoneNumber
+                    </td>
+                    <td>@u.StartTime.ToString("d/MM/yy h:mm tt") @(u.Duration) mins</td>
+                    <td>@u.Guests</td>
+                    <td>
+                        @if (u.Guest == null)
+                        {
+                            <span class="text-danger">None</span>
+                        }
+                        else
+                        {
+                            <div class="text-success" data-bs-toggle="tooltip" data-bs-html="true"
+                                 data-bs-title="Email: @u.Guest.Email <br/>Phone: @u.Guest.PhoneNumber">
+                                @u.Guest.FullName
+                            </div>
+                        }
+                    </td>
+                    @if (u.AdditionalNotes == null)
+                    {
+                        <td class="text-danger">No notes</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="text-success" data-bs-toggle="tooltip" data-bs-title="@u.AdditionalNotes">Show more</div>
+                        </td>
+                    }
+                    <td>
+                        @if (u.Sitting.Name.Length >= 10)
+                        {
+                            <div class="text-success" data-bs-toggle="tooltip" data-bs-title="@u.Sitting.Name">@u.Sitting.Name.Substring(0,10)...</div>
+                        }
+                        else
+                        {
+                            @u.Sitting.Name
+                        }
+                    </td>
+                    <td>
+                        @u.Sitting.StartTime.ToString("t")<br />@u.Sitting.EndTime.ToString("t")
+                    </td>
+                    <td>
+                        @u.TablesToString
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

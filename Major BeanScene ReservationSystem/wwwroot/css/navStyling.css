@@ -1,0 +1,72 @@
+﻿.dropdown-menu li {
+    position: relative;
+}
+
+.dropdown-menu .dropdown-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+}
+
+.dropdown-menu > li:hover > .dropdown-submenu {
+    display: block;
+}
+
+button .navbar-toggler > img {
+    background-color:purple;
+}
+
+button .navbar-toggler :hover {
+    background-color: purple;
+}
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+    color: #b27b43;
+}
+
+.navbar-nav .nav-item.dropdown > .nav-link.dropdown-toggle {
+    color: white !important;
+}
+
+.navbar-nav .nav-item.dropdown:not(.show) > .nav-link.dropdown-toggle:hover,
+.navbar-nav .nav-item.dropdown.show > .nav-link.dropdown-toggle:focus {
+    color: #b27b43 !important;
+}
+
+.navbar-nav .nav-item.dropdown.show > .nav-link.dropdown-toggle {
+    color: #b27b43 !important;
+}
+
+.navbar .nav-link{
+    color:white
+}
+
+
+.dropdown{
+    color: #b27b43;
+}
+
+
+@media (max-width: 575px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .dropdown-menu .dropdown-submenu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0;
+    }
+
+    .dropdown-menu > li.active > .dropdown-submenu {
+        display: block;
+    }
+}
+
+.navbar-nav .ul .li a :hover {
+    color: #b27b43;
+}

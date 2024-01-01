@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Reservations Index";
+}
+<head>
+    <link rel="stylesheet" href="~/css/generalLayout.css" asp-append-version="true">
+</head>
+<div class="p-5 text-center bg-dark min-vh-100 main-container">
+    <h1>Welcome, Staff</h1>
+    <div class="d-sm-inline-flex gap-2 mb-5 p-5">
+
+        <a asp-controller="Home" class="d-sm-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" asp-action="SearchReservations">Search reservations</a>
+        <a asp-controller="Home" class="d-sm-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill" asp-action="Create">Create reservation</a>
+        <a asp-controller="Home" class="d-sm-inline-flex align-items-center btn btn-secondary btn-lg px-4 rounded-pill" asp-action="AssignTablesToReservations">Assign tables</a>
+    </div>
+</div>
+
+
+@section Scripts{
+}

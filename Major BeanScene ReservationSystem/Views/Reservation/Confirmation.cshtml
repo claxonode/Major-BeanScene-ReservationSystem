@@ -1,0 +1,147 @@
+﻿@model Major_BeanScene_ReservationSystem.Data.Models.Reservation
+
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-image: url('/images/homescreen.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .main-container {
+            opacity: 95%;
+        }
+
+        fieldset {
+            border: 1px solid #b27b43;
+        }
+    </style>
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 text-white bg-dark">
+        <h1 class="text-center my-3">Confirmation</h1>
+        @if (Model.Guest != null)
+        {
+            <fieldset class="col m-2">
+                <legend class="my-2 text-center text-decoration-underline">RESERVATION</legend>
+                <div class="m-2">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>REFERENCE NUMBER: @Model.Id</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>DATE/TIME: @Model.StartTime</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>DURATION: @Model.Duration</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>RESERVED BY: @Model.Person.LastName.ToUpper(), @Model.Person.FirstName.ToUpper()</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>EMAIL: @Model.Person.Email</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>PHONE: @Model.Person.PhoneNumber</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>RESERVED FOR: @Model.Guest.LastName.ToUpper(), @Model.Guest.FirstName.ToUpper()</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>EMAIL: @Model.Guest.Email</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>PHONE: @Model.Guest.PhoneNumber</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>NUMBER OF GUESTS: @Model.Guests</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>STATUS: @Model.ReservationStatus.Name</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>ORIGIN: @Model.ReservationOrigin.Name</p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        }
+        else
+        {
+            <fieldset class="col m-2">
+                <legend class="my-2 text-center text-decoration-underline">RESERVATION</legend>
+                <div class="m-2">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <p>REFERENCE NUMBER: @Model.Id</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>DATE/TIME: @Model.StartTime</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>DURATION: @Model.Duration</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <p>RESERVED BY: @Model.Person.LastName.ToUpper(), @Model.Person.FirstName.ToUpper()</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>EMAIL: @Model.Person.Email</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>PHONE: @Model.Person.PhoneNumber</p>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <p>NUMBER OF GUESTS: @Model.Guests</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>STATUS: @Model.ReservationStatus.Name</p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <p>ORIGIN: @Model.ReservationOrigin.Name</p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>
+    
+
+

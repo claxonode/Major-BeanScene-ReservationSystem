@@ -1,0 +1,20 @@
+﻿body {
+    margin: 0;
+    background-image: url('/images/homescreen.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-container {
+    opacity: 95%;
+    color: white;
+}
+
+
+.form-label {
+    color: black;
+}
+
+#remember {
+    color: white
+}

@@ -1,0 +1,168 @@
+﻿@model Create
+
+@{
+    ViewData["Title"] = "Create";
+}
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-image: url('/images/homescreen.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .main-container {
+            opacity: 95%;
+            color: white;
+        }
+
+        .form-group input[type="submit"] {
+            width: 120px;
+            padding: 5px 10px;
+            background-color: grey;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #b27b43;
+        }
+         
+    </style>
+</head>
+
+@if (TempData["Success"]!=null)
+{
+    @* <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div> *@
+    await Html.PartialAsync("_SuccessMessage");
+}
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark"> 
+        <h3 class="my-3 text-center text-decoration-underline">Create a Sitting</h3>
+        <div class="container">
+            <div class="m-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsClosed" /> @Html.DisplayNameFor(model => model.IsClosed)
+                        </label>
+                    </div>
+                    <div class="row my-2">
+                        <div class="form-group col-md-6">
+                            <label asp-for="RestaurantId" class="control-label"></label>
+                            <select asp-for="RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="SittingTypeId" class="control-label"></label>
+                            <select asp-for="SittingTypeId" class="form-control" asp-items="Model.SittingTypes"></select>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Capacity" class="control-label"></label>
+                            <input asp-for="Capacity" class="form-control" />
+                            <span asp-validation-for="Capacity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="form-group col-md-6">
+                            <label asp-for="StartTime" class="control-label"></label>
+                            <input asp-for="StartTime" class="form-control" />
+                            <span asp-validation-for="StartTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="EndTime" class="control-label"></label>
+                            <input asp-for="EndTime" class="form-control" />
+                            <span asp-validation-for="EndTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="form-group col-md-6" >
+                            <label class="control-label" asp-for="RepeatOptionId">Repeat</label>
+                            <select class="form-control" asp-for="RepeatOptionId" asp-items="Model.RepeatOptions">
+                            </select>
+                            <span asp-validation-for="RepeatOptionId" class="text-danger"></span>
+                            <span asp-validation-for="Occurence" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" id="repeatWeek" style="display:@(Model.RepeatOptionId != 1 ?"none":"")">
+                            <label class="control-label">Choose days:</label>
+                            @for (int i = 0; i < Model.SelectedDaysOfWeek.Count; i++)
+                            {
+                                <div>
+                                    <input type="checkbox" name="SelectedDaysOfWeek" value="@Model.SelectedDaysOfWeek[i]" id="day@(i)" />
+                                    <label for="day@(i)">@Model.SelectedDaysOfWeek[i]</label>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="form-group" id="OccurCount" style="display:none">
+                            <label asp-for="Occurence" class="control-label"></label>
+                            <input asp-for="Occurence" class="form-control" />
+
+                        </div>
+                    </div>
+                    <div class="text-center form-group">
+                        <input type="submit" value="Create" class="btn btn-warning" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+<div>
+    <a asp-controller="Home" asp-action="Calendar">Back to Calendar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $("#RepeatOptionId").on("change", function () {
+            let value = $(this).val()
+            if (value === "1") {
+                $("#repeatWeek").hide()
+                $('#OccurCount').hide()
+                
+            }
+            else if (value === "2") {
+                $("#repeatWeek").hide()
+                $("#Occurence").val(1)
+                $("#OccurCount").show()
+            }
+            else if (value === "3") {
+                $("#repeatWeek").show()
+                $("#Occurence").val(1)
+                $('#OccurCount').show()
+                ///how do we select which week is hightrue
+                //get the date
+                let selectedDate = $("#StartTime").val()
+                let date = new Date(selectedDate).getDay()
+                
+                $(`#day${date}`).prop("checked",true)
+            }
+            
+
+        })
+    </script>
+}

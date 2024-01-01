@@ -1,0 +1,104 @@
+﻿@model Major_BeanScene_ReservationSystem.Areas.Manager.Models.Sittings.Details.UpdateReservation
+
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-3">Reservation</h3>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title fs-5" id="reservationName" for="reservationName"></h4>
+                <div class="container ">
+                    <form id="reservationForm" class="row g-3" method="post" action="" autocomplete="off">
+                        <div asp-validation-summary="All" class="col-12 text-danger"></div>
+
+                        <input hidden="hidden" name="Id" id="Id" for="Id" />
+                        <input hidden="hidden" name="PersonId" id="PersonId" for="PersonId" />
+                        <input hidden="hidden" name="Route" id="Route" for="Route" />
+                        <div class="col-md-6">
+                            <label for="FirstName" class="control-label">First Name</label>
+                            <span name="FirstName" id="FirstName" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" for="LastName">Last Name</label>
+                            <span name="LastName" id="LastName" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" for="Email">Email</label>
+                            <span name="Email" id="Email" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" for="Phone">Phone</label>
+                            <span name="PhoneNumber" id="PhoneNumber" class="form-control" />
+                        </div>
+                        <div class="col-md-6" id="GuestFirstName"></div>
+                        <div class="col-md-6" id="GuestLastName"></div>
+                        <div class="col-md-6" id="GuestEmail"></div>
+                        <div class="col-md-6" id="GuestPhone"></div>
+                        <div class="col-md-3">
+                            <label asp-for="SelectedDate" class="control-label"></label>
+                            <input asp-for="SelectedDate" name="SelectedDate" id="SelectedDate" class="form-control" />
+
+                            <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="SittingId" class="control-label"></label>
+                            <select asp-for="SittingId" name="SittingId" id="SittingId" class="form-control" asp-items="Model.Sitting">
+                                <option value="">-- Please Select a Sitting --</option>
+                            </select>
+                            <span asp-validation-for="SittingId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="SelectedTime" class="control-label">Select Time</label>
+                            <select asp-for="SelectedTime" name="SelectedTime" id="SelectedTime" class="form-control">
+                                <option value="">-- Select Time --</option>
+                            </select>
+                            <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="control-label" for="Duration">Duration</label>
+                            <input id="Duration" name="Duration" class="form-control" asp-for="Duration" placeholder="Length of your reservation in minutes" />
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Guests" class="control-label">Guests</label>
+                            <select id="Guests" name="Guests" asp-for="NumberOfGuests" class="form-control">
+                                <option value="">--Select the number of guests--</option>
+                            </select>
+                            <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                            <span id="guestsValidationError" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="ReservationOrigin" class="control-label">Reservation Origin</label>
+                            <select id="OriginId" name="ReservationOriginId" asp-for="ReservationOriginId" asp-items="Model.ReservationOrigin" class="form-control">
+                                <option value="">-Select Reservation Origin-</option>
+                            </select>
+                            <span asp-validation-for="ReservationOriginId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="ReservationStatusId" class="control-label">Reservation Status</label>
+                            <select id="StatusId" name="ReservationStatusId" asp-for="ReservationStatusId" asp-items="Model.ReservationStatus" class="form-control">
+                                <option value="">-Select Reservation Status-</option>
+                            </select>
+                            <span asp-validation-for="ReservationStatusId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="AdditionalNotes" class="control-label">Additional Notes</label>
+                            <textarea id="AdditionalNotes" asp-for="AdditionalNotes" name="AdditionalNotes"
+                                      placeholder="If a member/guest requests to update their personal details, write it in this section." class="form-control"></textarea>
+                            <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="edit" type="submit" class="btn btn-primary">Update</button>
+                            <button id="delete" type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

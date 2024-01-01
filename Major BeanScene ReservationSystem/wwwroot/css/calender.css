@@ -1,0 +1,33 @@
+﻿#calendar{
+    background-color:white;
+}
+#calendar a {
+    color:black;
+}
+
+#calendar .fc-list-event-time{
+    color:black
+}
+
+#calendar .fc-header-toolbar {
+    margin: 5px 5px 5px 5px
+}
+
+#calendar .fc-toolbar-chunk button:hover {
+    background-color: #b27b43;
+}
+
+#calendar .fc-button-active {
+    background-color: #b27b43;
+}
+
+#calendar .fc-timegrid-axis-cushion {
+    color:black;
+}
+#calendar .fc-timegrid-slot-label-cushion {
+    color:black
+}
+
+#calendar .fc-toolbar-title{
+    color:black;
+}

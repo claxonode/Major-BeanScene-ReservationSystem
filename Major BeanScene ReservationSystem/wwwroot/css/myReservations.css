@@ -1,0 +1,40 @@
+﻿.btn:hover {
+    color:aliceblue;
+    background-color: #b27b43;
+}
+.row::after {
+    clear: both;
+}
+
+.row::before{
+    clear:both
+}
+.tile-content-reservation:hover {
+    background-color: #b27b43;
+}
+
+.tile-content-reservation{
+    color: black;
+    margin: 2px;
+}
+
+.tile-content-restaurant{
+    padding:5px;
+    border-bottom: 1px solid black;
+    text-align: center;
+    color:black;
+}
+
+.tile{
+    border:5px solid #b27b43;
+    background-color: white;
+}
+
+.page-link{
+    color:black;
+}
+
+.page-link:hover {
+    background-color: #b27b43;
+    color: aliceblue;
+}

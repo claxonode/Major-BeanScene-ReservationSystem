@@ -1,0 +1,100 @@
+﻿@model SearchSittings
+
+<head>
+    <link rel="stylesheet" href="~/css/myReservations.css" asp-append-version="true" />
+    <style>
+        form input[type="submit"] {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 4px 15px; /* Adjust the padding as needed */
+            margin-left: 5px; /* Adjust the margin as needed */
+            border-radius: 5px; /* Optional: Add rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            form input[type="submit"]:hover {
+                background-color: #b27b43;
+            }
+    </style>
+</head>
+
+<form asp-action="SearchSittings" method="get" class="container-fluid py-1">
+    <label for="selectedDate"><strong>Select Date: </strong></label>
+    <input type="date" name="selectedDate" value="@Model.SelectedDate?.ToString("yyyy-MM-dd")" />
+    <input type="hidden" name="sittingTypeId" value="@ViewData["CurrentSittingType"]" />
+    <input type="submit" value="Search" class="btn btn-default" />
+</form>
+<div class="container border-top">
+    @if (Model.Sittings.Any(s => s.SittingTypeId == 3))
+    {
+        @foreach (var sitting in Model.Sittings.Where(s => s.SittingTypeId == 3))
+        {
+            if (sitting.StartTime.Date != sitting.EndTime.Date)
+            {
+                <div class="tile my-3 mx-2">
+                    <div class="tile-content-restaurant col-md-12">
+                        @*Need to be able to use logo*@
+                        <img src="~/images/BeanSceneLogo.png" style="height:25px;width:30px;" alt=" Bean Scene Logo" />
+                        <strong>Bean Scene</strong>
+                    </div>
+
+                    <a asp-action="Details" asp-controller="Sittings" asp-area="Manager" asp-route-id="@sitting.Id" asp-area="" class="reservation-link text-decoration-none bg-primary" title="Click to view reservation details">
+                        <div class="tile-content-reservation">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-center"><strong>DATE & TIME:</strong> @(sitting.StartTime.ToString("dddd, d\" of \"MMMM h:mm tt") + " - " + sitting.EndTime.ToString("h:mm tt"))</p>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col-md-6">
+                                    <p><strong>SITTING NAME:</strong> @sitting.Name</p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p><strong>SITTING TYPE:</strong> @sitting.SittingType.Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="tile my-3 mx-2">
+                    <div class="tile-content-restaurant col-md-12">
+                        @*Need to be able to use logo*@
+                        <img src="~/images/BeanSceneLogo.png" style="height:25px;width:30px;" alt=" Bean Scene Logo" />
+                        <strong>Bean Scene</strong>
+                    </div>
+
+                    <a asp-action="Details" asp-controller="Sittings" asp-area="Manager" asp-route-id="@sitting.Id" asp-area="" class="reservation-link text-decoration-none bg-primary" title="Click to view reservation details">
+                        <div class="tile-content-reservation">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-center"><strong>DATE & TIME:</strong> @(sitting.StartTime.ToString("dddd, d\" of \"MMMM h:mm tt") + " - " + sitting.EndTime.ToString("h:mm tt"))</p>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col-md-6">
+                                    <p><strong>SITTING NAME:</strong> @sitting.Name</p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p><strong>SITTING TYPE:</strong> @sitting.SittingType.Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <h3 class="text-danger text-center my-3">Currently no Dinner Sittings exist.</h3>
+    }
+</div>

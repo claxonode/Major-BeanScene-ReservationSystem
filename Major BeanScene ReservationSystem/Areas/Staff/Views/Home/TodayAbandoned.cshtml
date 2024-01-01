@@ -1,0 +1,126 @@
+﻿@model Today
+
+<h1>Today's Reservation</h1>
+
+<form asp-action="Today" method="get">
+</form>
+@if (TempData["Error"] != null)
+{
+    <partial name="_ErrorMessage" />
+}
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                @Model.PendingsReservations.Reservations.Count() Pending Reservations
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayNew",Model.PendingsReservations, new ViewDataDictionary(ViewData){
+                {"Name","Pending"}
+                })
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                @Model.ConfirmedReservations.Reservations.Count() Confirmed Reservations
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayNew",Model.ConfirmedReservations, new ViewDataDictionary(ViewData){
+                {"Name","Confirmed"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                @Model.CancelledReservations.Reservations.Count() Cancelled Reservations
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayNew",Model.CancelledReservations, new ViewDataDictionary(ViewData){
+                {"Name","Cancelled"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                @Model.SeatedReservations.Reservations.Count() Confirmed Reservations
+            </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayNew",Model.SeatedReservations, new ViewDataDictionary(ViewData){
+                {"Name","Seated"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                @Model.CompletedReservations.Reservations.Count() Completed Reservations
+            </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayNew",Model.CompletedReservations, new ViewDataDictionary(ViewData){
+                {"Name","Completed"}
+                })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+        let pend = [@Html.Raw(Json.Serialize(ViewData["NameSortParmPend"])), @Html.Raw(Json.Serialize(ViewData["DateSortParmPend"]))]
+        let canc = [@Html.Raw(Json.Serialize(ViewData["NameSortParmCanc"])), @Html.Raw(Json.Serialize(ViewData["DateSortParmCanc"]))]
+        let conf = [@Html.Raw(Json.Serialize(ViewData["NameSortParmConf"])), @Html.Raw(Json.Serialize(ViewData["DateSortParmConf"]))]
+        let seat = [@Html.Raw(Json.Serialize(ViewData["NameSortParmSeat"])), @Html.Raw(Json.Serialize(ViewData["DateSortParmSeat"]))]
+        let comp = [@Html.Raw(Json.Serialize(ViewData["NameSortParmComp"])), @Html.Raw(Json.Serialize(ViewData["DateSortParmComp"]))]
+        $("#PendingName").attr("href", `/Staff/Home/TodayNew?sortPending=${pend[0]}`)
+        $("#PendingResTime").attr("href", `/Staff/Home/TodayNew?sortPending=${pend[1]}`)
+
+        $("#CancelledName").attr("href", `/Staff/Home/TodayNew?sortCancelled=${canc[0]}`)
+        $("#CancelledResTime").attr("href", `/Staff/Home/TodayNew?sortCancelled=${canc[1]}`)
+
+        $("#ConfirmedName").attr("href", `/Staff/Home/TodayNew?sortConfirmed=${conf[0]}`)
+        $("#ConfirmedResTime").attr("href", `/Staff/Home/TodayNew?sortConfirmed=${conf[1]}`)
+
+        $("#SeatedName").attr("href", `/Staff/Home/TodayNew?sortSeated=${seat[0]}`)
+        $("#SeatedResTime").attr("href", `/Staff/Home/TodayNew?sortSeated=${seat[1]}`)
+
+        $("#CompletedName").attr("href", `/Staff/Home/TodayNew?sortCompleted=${comp[0]}`)
+        $("#CompletedResTime").attr("href", `/Staff/Home/TodayNew?sortCompleted=${comp[1]}`)
+
+        $("#ConfirmedName").on("click", function (event) {
+            event.preventDefault();
+            debugger
+            let accordionItemID = $(this).data("accordion-item");
+            let accordionItem = $("#" + accordionItemID);
+
+            // Toggle the accordion item's state
+            accordionItem.find(".accordion-button").toggleClass("collapsed");
+            accordionItem.find(".accordion-collapse").toggleClass("show");
+        });
+    </script>
+}

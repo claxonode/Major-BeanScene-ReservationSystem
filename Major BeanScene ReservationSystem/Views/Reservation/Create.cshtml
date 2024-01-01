@@ -1,0 +1,150 @@
+﻿@model Major_BeanScene_ReservationSystem.Models.Reservation.CreateWithSelectedDate
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/createReservation.css" asp-append-version="true">
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <h1 class="text-center my-3">Make a Reservation!</h1>
+        @if (User.IsInRole("Member"))
+        {
+
+        }
+        else
+        {
+            <pre class="text-center">Create an Account? <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Register</a>        ||        Already a Member? <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Login</a></pre>
+        }
+        <form class="m-2" id="reservationForm" asp-action="Create" method="post" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label for="ForSomeoneElse" class="control-label">Is this reservation for someone else?</label>
+                <input type="hidden" id="ForSomeoneElse" name="ForSomeoneElse" value="false" />
+                <input type="checkbox" id="ForSomeoneElseCheckbox" />
+            </div>
+
+            <div  id="forSomeoneElseFields" style="display:none;">
+                <div class="mb-3">
+                    <div class="row m-2">
+                        <div class="col-md-6 form-group">
+                            <label asp-for="GuestFirstName" class="control-label">Guest First Name</label>
+                            <input asp-for="GuestFirstName" class="form-control" placeholder="e.g. John" />
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label asp-for="GuestLastName" class="control-label">Guest Last Name</label>
+                            <input asp-for="GuestLastName" class="form-control" placeholder="e.g. Smith" />
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-md-6 form-group">
+                            <label asp-for="GuestEmail" class="control-label">Guest Email</label>
+                            <input asp-for="GuestEmail" class="form-control" placeholder="e.g. john@example.com" />
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label asp-for="GuestPhoneNumber" class="control-label">Guests Phone Number</label>
+                            <input asp-for="GuestPhoneNumber" class="form-control" />
+                            <span asp-validation-for="GuestPhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>       
+            </div>
+            <div class="mb-3">
+                <div class="row m-2">
+                    <p class="text-decoration-underline">Personal Information</p>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="e.g. John" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="e.g. Smith" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="e.g. john@example.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row m-2">
+                    <p class="text-decoration-underline">Reservation Info</p>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SelectedDate" class="control-label"></label>
+                        <input asp-for="SelectedDate" id="SelectedDate" class="form-control" />
+                        <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SittingId" class="control-label"></label>
+                        <select asp-for="SittingId" id="SittingId" class="form-control" asp-items="Model.Sitting">
+                            <option value="">-- Please Select a Sitting --</option>
+                        </select>
+                        <span asp-validation-for="SittingId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SelectedTime" class="control-label">Select Time</label>
+                        <select asp-for="SelectedTime" id="SelectedTime" class="form-control">
+                            <option value="">-- Select Time --</option>
+                        </select>
+                        <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class ="row m-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Duration" class="control-label"></label>
+                        <input asp-for="Duration" type="number" min="15" max="60" step="5" class="form-control" placeholder="Length of your reservation in minutes" />
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="NumberOfGuests" class="control-label"></label>
+                        <select id="numGuests" asp-for="NumberOfGuests" asp-items="@(new SelectList(Enumerable.Range(1, 10)))" class="form-control">
+                            <option value="">--Select the number of guests--</option>
+                        </select>
+                        <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                        <span id="guestsValidationError" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="form-group">
+                        <label class="control-label">Additional Notes</label>
+                        <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+                        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/reservationCreate.js"></script>
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> *@
+}
+

@@ -1,0 +1,82 @@
+﻿    <head>
+        <link rel="stylesheet" href="~/css/calender.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+    </head>
+
+    <div class="container-fluid d-flex flex-column min-vh-100">
+        <div class="main-container flex-grow-1 bg-dark">
+            <h1 class="text-center">Calendar</h1>
+            @if (TempData["Success"] != null)
+            {
+                await Html.PartialAsync("_SuccessMessage");
+            }
+            @if (TempData["Error"] != null)
+            {
+                await Html.PartialAsync("_ErrorMessage");
+            }
+            <div class="m-3" id='calendar' style="max-height:750px;"></div>
+        </div>
+    </div>
+    <div class="modal fade" id="newSittingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="Title"></h1>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-success" id="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+        <script>
+            const myModal = new bootstrap.Modal(document.getElementById('newSittingModal'))
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'timeGridWeek',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'listWeek,timeGridWeek,dayGridMonth'
+                    },
+                    select: function (selectionInfo) {
+                        if (Date.now() >selectionInfo.start) {
+                            $(".modal-title").text("Error")
+                            $(".modal-body").text("To create a sitting, Please select a date in the future.")
+                            $("#Create").hide();
+                            myModal.show()
+                        }
+                        else {
+                            let timeFormat = new Intl.DateTimeFormat('en', {
+                                timeStyle:"short",dateStyle:"short"
+                            })
+                            let start = timeFormat.format(selectionInfo.start)
+                            let end = timeFormat.format(selectionInfo.end)
+                            $(".modal-title").text("Create a sitting?")
+                            $(".modal-body").text("Create a sitting from "+ start + " to " + end)
+                            $("#Create").attr("href",`/Manager/Sittings/Create?start=${start}&end=${end}`)
+                            $("#Create").show();
+                            myModal.show()
+                        }
+                    
+                    },
+                    selectable: true,
+                
+                    events: `/api/sittings/between`,
+                    eventColor:'#b27b43',
+                    slotEventOverlap: false
+                });
+                calendar.render();
+            });
+
+        </script>
+
+    }

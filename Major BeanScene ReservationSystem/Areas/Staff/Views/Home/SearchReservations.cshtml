@@ -1,0 +1,248 @@
+﻿@model SearchReservations
+
+@{
+    ViewData["Title"] = "Search Reservations";
+    TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+    //-Staff: a standard staff member can only capture and update reservation requests, access to scheduling sittings and viewing reports must be restricted
+
+    var prevDisabled = !Model.Reservations.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Reservations.HasNextPage ? "disabled" : "";
+    var show20Disabled = (int)ViewData["CurrentPageSize"] == 20 ? "disabled" : "";
+    //var pendingDisabled = Model.PendingCount == 0 ? "disabled" : "";
+    //var confirmedDisabled = Model.ConfirmedCount == 0 ? "disabled" : "";
+    //var cancelledDisabled = Model.CancelledCount == 0 ? "disabled" : "";
+    //var seatedDisabled = Model.SeatedCount == 0 ? "disabled" : "";
+    //var completedDisabled = Model.CompletedCount == 0 ? "disabled" : "";
+}
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-image: url('/images/homescreen.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .main-container {
+            opacity: 95%;
+            color: white;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-item {
+            display: inline;
+        }
+
+        .page-link {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .page-info {
+            margin: 0 1rem;
+        }
+
+        .navbar input[type="submit"] {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin-left: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar input[type="submit"]:hover {
+            background-color: #b27b43;
+        }
+    </style>
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <h3 class="text-center mt-3">Search Reservations</h3>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler border solid bg-white" type="button" data-bs-target="#searchReservationCollapse" data-bs-toggle="collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <img height="25px" width="25px" src="~/images/filter-left.svg" />
+                </button>
+                <div class="collapse navbar-collapse" id="searchReservationCollapse">
+                    <div class="navbar-brand text-white">Filter Reservations</div>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="SearchReservations">Reset all</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Reservation Type
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li >
+                                    <a asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="1"
+                                        class="dropdown-item  position-relative">
+                                        Pending <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@Model.PendingCount</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="2"
+                                        class="dropdown-item  position-relative">
+                                        Confirmed <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@Model.ConfirmedCount</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="3"
+                                        class="dropdown-item  position-relative">
+                                        Cancelled <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@Model.CancelledCount</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="4"
+                                        class="dropdown-item position-relative">
+                                        Seated <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@Model.SeatedCount</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="5"
+                                        class="dropdown-item position-relative">
+                                        Completed <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">@Model.CompletedCount</span>
+                                    </a>
+                                </li>
+                            </ul>
+                
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                See how many reservations
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                        asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="@ViewData["CurrentStatus"]"
+                                        asp-route-pageNumber="1"
+                                        asp-route-pageSize="20"
+                                        class="btn btn-default Status @show20Disabled">
+                                        20
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        asp-action="SearchReservations"
+                                        asp-route-searchString="@ViewData["CurrentFilter"]"
+                                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                        asp-route-statusId="@ViewData["CurrentStatus"]"
+                                        asp-route-pageNumber="1"
+                                        asp-route-pageSize="40"
+                                        class="btn btn-default Status @show20Disabled">
+                                        40
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                
+                    </ul>
+                    <form class="d-flex" role="search" asp-route-statusId="@ViewData["CurrentStatus"]">
+                        <input type="text" class="form-control me-2" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search by Person name" />
+                        <input type="submit" value="Search" class="btn btn-default" />
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <h4 class="m-2">@Model.ReservationStatus Reservations</h4>
+
+
+        @if ((int)ViewData["CurrentStatus"] == 1)
+        {
+            @await Html.PartialAsync("_SearchReservationsPendingTable", Model)
+        }
+        else if ((int)ViewData["CurrentStatus"] == 2)
+        {
+            @await Html.PartialAsync("_SearchReservationsConfirmedTable", Model)
+        }
+        else if ((int)ViewData["CurrentStatus"] == 3)
+        {
+            @await Html.PartialAsync("_SearchReservationsCancelledTable", Model)
+        }
+        else if ((int)ViewData["CurrentStatus"] == 4)
+        {
+            @await Html.PartialAsync("_SearchReservationsSeatedTable", Model)
+        }
+        else if ((int)ViewData["CurrentStatus"] == 5)
+        {
+            @await Html.PartialAsync("_SearchReservationsCompletedTable", Model)
+        }
+
+        <nav class="d-flex justify-content-center mt-2 mb-5" aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a asp-action="SearchReservations"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-statusId="@ViewData["CurrentStatus"]"
+                       asp-route-pageSize="@ViewData["CurrentPageSize"]"
+                       asp-route-pageNumber="@(Model.Reservations.PageIndex - 1)"
+                       class="page-link @prevDisabled">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-info">Page @(Model.Reservations.PageIndex) of @Model.Reservations.TotalPages</li>
+                <li class="page-item">
+                    <a asp-action="SearchReservations"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-statusId="@ViewData["CurrentStatus"]"
+                       asp-route-pageSize="@ViewData["CurrentPageSize"]"
+                       asp-route-pageNumber="@(Model.Reservations.PageIndex + 1)"
+                       class="page-link @nextDisabled">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        // $("StatusId").on("change", function{
+        //     //trigger pending list to change...
+        // })
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        $(".Status").click(function (e) {
+            e.stopPropagation();
+            // alert("how")
+            // return true;
+            // $(this).click()
+        })
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+}

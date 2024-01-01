@@ -1,0 +1,69 @@
+﻿@model Major_BeanScene_ReservationSystem.Areas.Manager.Models.Employee.Index
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+
+    <style>
+        table {
+            border: 2px solid #b27b43;
+            border-radius: 5px;
+        }
+
+        a {
+            text-decoration:none;
+            font-size:20px;
+        }
+
+        a:hover{
+            text-decoration:underline;
+            color: #b27b43;
+        }
+    </style>
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+
+        <h3 class="text-center my-3">Employees List</h3>
+        <div class="text-center">
+            <a asp-action="Create">Register New Employee</a>
+        </div>
+        @if (TempData["Error"] != null)
+        {
+            <partial name="_ErrorMessage" />
+        }
+        <div class="table-responsive text-center m-3">
+            <table class="bg-white text-black" width="100%">
+                <thead>
+                    <tr><td class="border-end border-bottom border-black">Full name</td><td class="border-end border-bottom border-black">Username</td><td class="border-end border-bottom border-black">Administrator</td><td class="border-end border-bottom border-black">Actions</td></tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var u in Model.Users)
+                    {
+                        <tr>
+                            <td class="border-end border-bottom border-black">@u.FullName</td>
+                            <td class="border-end border-bottom border-black">@u.Username</td>
+                            <td class="border-end border-bottom border-black">@(u.IsAdmin ? "Yes" : "No")</td>
+                            <td class="border-end border-bottom border-black">
+                                <form asp-action=@(u.IsAdmin?"Revoke":"Grant")>
+                                    <input type="hidden" name="Id" asp-for=@u.Id />
+                                    <input type="submit" value=@(u.IsAdmin?"Revoke":"Grant")>
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Orders",
+
+  "type": "object",
+
+  "properties": {
+    "name": {
+      "_id": "ObjectId()",
+      "dateCreated": "Date",
+      "dateModified": "Date",
+      "table": "String",
+      "status": "String",
+      "items": [
+        {
+          "name": "String",
+          "price": "double",
+          "quantity": "int",
+          "notes": "string",
+          "status": "String"
+        }
+      ]
+    }
+  }
+}
+

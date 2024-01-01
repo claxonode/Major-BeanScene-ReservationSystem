@@ -1,0 +1,105 @@
+﻿@model ReservationViewModel
+
+
+<div class="accordion-body">
+    @if (!Model.ReservationsNotAdapted.Any())
+    {
+        <h4>No @ViewData["Name"] reservations</h4>
+    }
+    else
+    {
+        <div class="form-actions no-color">
+            <p>
+                Search by Sitting name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+                <a asp-action="Today">Back to Full List</a>
+            </p>
+        </div>
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <td>Full name</td>
+                    <td><a asp-action="Today" asp-route-sortOrder="@ViewData["DateSortParm"]">Start time</a></td>
+                    <td>Guest count</td>
+                    <td>Duration</td>
+                    <td>Notes</td>
+                    <td>Origin</td>
+                    <td>Status</td>
+                    <td>Sitting name</td>
+                    <td>Sitting Start Time</td>
+                    <td>Sitting End Time</td>
+                    <td>Change status</td>
+                    <td>Tables</td>
+                    <td>Change Table</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var u in Model.ReservationsNotAdapted)
+                {
+                    <tr>
+                        <td>@u.Person.FullName</td>
+                        <td>@u.StartTime</td>
+                        <td>@u.Guests</td>
+                        <td>@u.Duration</td>
+
+                        @if (u.AdditionalNotes == null)
+                        {
+                            <td class="text-danger">No additional notes</td>
+                        }
+                        else
+                        {
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="popover" data-bs-title="Additional Info" data-bs-content="@u.AdditionalNotes">Click to show more</button>
+                            </td>
+                        }
+                        <td>@u.ReservationOrigin.Name</td>
+                        <td>@u.ReservationStatus.Name</td>
+                        <td>@u.Sitting.Name</td>
+                        <td>@u.Sitting.StartTime.ToString("d/MM/yy h:mm tt")</td>
+                        <td>@u.Sitting.EndTime.ToString("d/MM/yy h:mm tt")</td>
+
+                        <td>
+                            <div class="btn-group dropend">
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="dropdown">Change status</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="1">Pending</a></li>
+                                    <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="2">Confirmed</a></li>
+                                    <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="3">Cancelled</a></li>
+                                    <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="4">Seated</a></li>
+                                    <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="5">Completed</a></li>
+                                </ul>
+
+                            </div>
+                        </td>
+                        <td>
+                            @u.TablesToString
+                        </td>
+                        <td>
+                            <form>
+                                <select id="@Model.TableList" asp-for="TableId" asp-items="Model.TableList">
+                                    <option value="">--Select a Table</option>
+                                </select>
+                                <input type="hidden" name="ReservationId" asp-for=@u.Id />
+                                <div class="btn-group dropend">
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="dropdown">Assign/Unassign tables</button>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" asp-action="AssignTable">Assign Table</button></li>
+                                        <li><button class="dropdown-item" asp-action="UnassignTable">Unassign Table</button></li>
+                                        <li><button class="dropdown-item" asp-action="UnassignAllTables" asp-route-Id="@u.Id">Unassign All Tables</button></li>
+                                    </ul>
+                                </div>
+                            </form>
+                            @*<button type="button" class="btn btn-sm btn-primary">Save Table</button>*@
+                            @*<select asp-for="@u.Tables" asp-items="@(new SelectList(Model.TableList))">
+                    <option value="">--Select a Table</option>
+                    </select>*@
+                            @*<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assignTable" data-bs-tables="@u.Tables">Click to assign table</button>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

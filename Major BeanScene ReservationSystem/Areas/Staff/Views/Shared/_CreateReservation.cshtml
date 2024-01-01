@@ -1,0 +1,112 @@
+﻿@model Major_BeanScene_ReservationSystem.Areas.Staff.Models.Home.StaffCreateReservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+    <link rel="stylesheet" href="~/css/createReservation.css" />
+    <style>
+
+    </style>
+</head>
+
+
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <h3 class="text-center my-3">Create a Reservation</h3>
+        <form class="m-2" id="reservationForm" asp-action="Create" method="post" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <div class="row m-2">
+                    <p class="text-decoration-underline">Customer Information</p>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="e.g. John" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="e.g. Smith" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="e.g. john@example.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row m-2">
+                    <p class="text-decoration-underline">Reservation Info</p>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SelectedDate" class="control-label"></label>
+                        <input asp-for="SelectedDate" id="SelectedDate" class="form-control" />
+                        <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SittingId" class="control-label"></label>
+                        <select asp-for="SittingId" id="SittingId" class="form-control" asp-items="Model.Sitting">
+                            <option value="">-- Please Select a Sitting --</option>
+                        </select>
+                        <span asp-validation-for="SittingId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SelectedTime" class="control-label">Select Time</label>
+                        <select asp-for="SelectedTime" id="SelectedTime" class="form-control">
+                            <option value="">-- Select Time --</option>
+                        </select>
+                        <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Duration" class="control-label"></label>
+                        <input asp-for="Duration" type="number" min="15" max="60" step="5" class="form-control" placeholder="Length of your reservation in minutes" />
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="NumberOfGuests" class="control-label"></label>
+                        <select id="numGuests" asp-for="NumberOfGuests" asp-items="@(new SelectList(Enumerable.Range(1, 10)))" class="form-control">
+                            <option value="">--Select the number of guests--</option>
+                        </select>
+                        <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                        <span id="guestsValidationError" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="ReservationOriginId" class="control-label"></label>
+                        <select id="ReservationOriginId" asp-for="ReservationOriginId" asp-items="Model.ReservationOrigin" class="form-control">
+                            <option value="">-Select Reservation Origin-</option>
+                        </select>
+                        <span asp-validation-for="ReservationOriginId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="form-group">
+                        <label class="control-label">Additional Notes</label>
+                        <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+                        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

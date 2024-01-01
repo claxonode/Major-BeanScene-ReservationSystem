@@ -1,0 +1,97 @@
+﻿@model Edit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<head>
+    <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+    <style>
+        .form-group input[type="submit"] {
+            width: 120px;
+            padding: 5px 10px;
+            background-color: grey;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #b27b43;
+        }
+    </style>
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <h4 class="text-center mt-3">Edit @Model.Name Sitting</h4>
+        <hr />
+        <form class="m-3" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label hidden asp-for="Id" class="control-label"></label>
+                <input hidden asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group form-check col-md-6">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsClosed" /> @Html.DisplayNameFor(model => model.IsClosed)
+                </label>
+            </div>
+            <div class="row mb-2">
+                <div class="form-group col-md-6">
+                    <label asp-for="StartTime" class="control-label"></label>
+                    <input asp-for="StartTime" class="form-control" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="EndTime" class="control-label"></label>
+                    <input asp-for="EndTime" class="form-control" />
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Capacity" class="control-label"></label>
+                    <input asp-for="Capacity" class="form-control" />
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="form-group col-md-6">
+                    <label asp-for="RestaurantId" class="control-label"></label>
+                    <select asp-for="RestaurantId" class="form-control" asp-items="Model.Restaurants"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">What is the Sitting Type?</label>
+                    <select asp-for="SittingTypeId" class="form-control" asp-items="Model.SittingTypes"></select>
+                </div>
+            </div>
+
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+        
+<div>
+    @* <a asp-action="Index">Back to List</a> *@
+    <a asp-controller="Home" asp-action="Calendar">Back to Calendar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

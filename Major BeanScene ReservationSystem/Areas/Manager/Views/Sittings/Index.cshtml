@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Sitting>
+
+@{
+    ViewData["Title"] = "Sittings Index";
+}
+
+
+<div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="text-body-emphasis">Welcome, Manager</h1>
+    <div class="d-sm-inline-flex gap-2 mb-5">
+
+        <a asp-controller="Sittings" class="d-sm-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" asp-action="SearchSittings">Search sittings</a>
+        <a asp-controller="Home" class="d-sm-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill" asp-action="Calendar">Calendar</a>
+        <a asp-controller="Sittings" class="d-sm-inline-flex align-items-center btn btn-secondary btn-lg px-4 rounded-pill" asp-action="Create">Create sitting</a>
+    </div>
+</div>
+
+
+
+
+
+@if (TempData["Error"] != null)
+{
+    <partial name="_ErrorMessage" />
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClosed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingTypeId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClosed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SittingType.Name)
+            </td>
+            <td>
+                @{bool sittingInThePast = item.EndTime< DateTime.Now;}
+                <a asp-action="Edit" class="@(sittingInThePast?"text-danger":"")" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" class="@(sittingInThePast?"text-danger":"")"  asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

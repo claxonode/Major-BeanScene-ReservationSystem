@@ -1,0 +1,114 @@
+﻿@model Major_BeanScene_ReservationSystem.Areas.Manager.Models.Home.Index
+<style>
+    body {
+        margin: 0;
+        background-image: url('images/homescreen.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .main-container {
+        opacity: 95%;
+    }
+    .row {
+        display: flex;
+        justify-content: center
+    }
+    canvas {
+        border: 1px solid #b27b43;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 text-white bg-dark">
+        <h1 class="text-center my-3">Welcome </h1>
+        <div class="row">
+            <canvas class="m-1 py-2" id="myChart" style="width: 100%; max-width: 575px"></canvas>
+            <canvas class="m-1 py-2" id="originChart" style="width: 100%; max-width: 575px"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+    @{
+        var statusNames = Model.ReservationStatus.Keys;
+        var statusCounts = Model.ReservationStatus.Values;
+        var originNames = Model.ReservationOrigin.Keys;
+        var originCounts = Model.ReservationOrigin.Values;
+    }
+    <script>
+        
+        let xValues = @Html.Raw(Json.Serialize(statusNames))
+        let yValues = @Html.Raw(Json.Serialize(statusCounts))
+        let fontColor = "#ffffff"
+        let barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
+
+        new Chart("myChart", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues,
+                    fontColor: fontColor
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Reservation Statuses",
+                    fontColor: fontColor
+                },
+                legend: {
+                    labels: {
+                        fontColor: fontColor
+                    }
+                }
+            }
+        });
+
+        let originXValues = @Html.Raw(Json.Serialize(originNames));
+        let originYValues = @Html.Raw(Json.Serialize(originCounts));
+        let originBarColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
+
+        new Chart("originChart", {
+            type: "doughnut",
+            data: {
+                labels: originXValues,
+                datasets: [{
+                    backgroundColor: originBarColors,
+                    data: originYValues,
+                    fontColor: fontColor
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Reservation Origins",
+                    fontColor: fontColor
+                },
+                legend: {
+                    labels: {
+                        fontColor: fontColor
+                    }
+                }
+            }
+        });
+    </script>
+
+}

@@ -1,0 +1,29 @@
+﻿.menu-item {
+    border: 2px solid #b27b43;
+}
+.filterDiv {
+    display:none;
+}
+.show {
+    display:block;
+}
+.btn {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn:hover {
+    background-color: #b27b43;
+}
+.btn:active {
+    background-color: #b27b43;
+}
+.selected {
+    background-color: #b27b43;
+    color: white;
+}

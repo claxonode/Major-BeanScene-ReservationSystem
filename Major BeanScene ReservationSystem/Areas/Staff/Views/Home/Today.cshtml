@@ -1,0 +1,166 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+    //-Staff: a standard staff member can only capture and update reservation requests, access to scheduling sittings and viewing reports must be restricted
+
+    ReservationViewModel pending = new ReservationViewModel() {
+        ReservationsNotAdapted = Model.ReservationsNotAdapted.Where(r => r.ReservationStatus.Id == 1).ToList(),
+        TableList = Model.TableList
+    };
+    ReservationViewModel cancelled = new ReservationViewModel() {
+        ReservationsNotAdapted= Model.ReservationsNotAdapted.Where(r => r.ReservationStatus.Id == 2).ToList(),
+        TableList = Model.TableList
+    };
+    ReservationViewModel confirmed = new ReservationViewModel() {
+        ReservationsNotAdapted = Model.ReservationsNotAdapted.Where(r => r.ReservationStatus.Id == 3).ToList(),
+        TableList = Model.TableList
+    };
+    ReservationViewModel seated = new ReservationViewModel() {
+        ReservationsNotAdapted= Model.ReservationsNotAdapted.Where(r => r.ReservationStatus.Id == 4).ToList(),
+        TableList = Model.TableList
+    };
+    ReservationViewModel completed = new ReservationViewModel()
+    {
+        ReservationsNotAdapted = Model.ReservationsNotAdapted.Where(r => r.ReservationStatus.Id == 5).ToList(),
+        TableList = Model.TableList
+    };
+
+}
+
+
+<h1>Today's Reservation</h1>
+<form asp-action="Today" method="get">
+   
+</form>
+@if (TempData["Error"] != null)
+{
+    <partial name="_ErrorMessage" />
+}
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                @pending.ReservationsNotAdapted.Count() Pending Reservations
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayReservations",pending, new ViewDataDictionary(ViewData){
+                    {"Name","Pending"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                @cancelled.ReservationsNotAdapted.Count() Cancelled Reservations
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayReservations",cancelled, new ViewDataDictionary(ViewData){
+                {"Name","Cancelled"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                @confirmed.ReservationsNotAdapted.Count() Confirmed Reservations
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayReservations",confirmed, new ViewDataDictionary(ViewData){
+                    {"Name","Confirmed"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                @seated.ReservationsNotAdapted.Count() Confirmed Reservations
+            </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayReservations",seated, new ViewDataDictionary(ViewData){
+                {"Name","Seated"}
+                })
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                @completed.ReservationsNotAdapted.Count() Completed Reservations
+            </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+            <div class="accordion-body">
+                @await Html.PartialAsync("_TodayReservations",completed, new ViewDataDictionary(ViewData){
+                {"Name","Completed"}
+                })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-7.0
+                    https://getbootstrap.com/docs/5.3/components/dropdowns/#responsive-alignment*@
+<div class="modal" id="changeStatus">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5"></h1>
+            </div>
+            <div class="modal-body">
+                <div class="container text-center">
+ 
+                    
+                  
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const modal = document.getElementById('changeStatus')
+        if (modal) {
+            modal.addEventListener('show.bs.modal', event => {
+                //Button that trigger the modal
+                const button = event.relatedTarget
+                const personName = button.getAttribute('data-bs-id')
+
+                const modalTitle = modal.querySelector('.modal-title')
+                const modalBodyInput = modal.querySelector('.modal-body p')
+
+                modalTitle.textContent = `Change status of reservation for ${personName}`
+                modalBodyInput.textContent = personName
+            })
+        }
+        function myFunction() {
+            console.log("I clicked")
+        }
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
+}
+
+

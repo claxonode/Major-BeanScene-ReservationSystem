@@ -1,0 +1,60 @@
+﻿@model Major_BeanScene_ReservationSystem.Areas.Member.Models.Edit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+    <style>
+        .form-group input[type="submit"] {
+            background-color: gray;
+            color: white;
+            width: 120px; 
+            padding: 5px 10px;
+            border: none;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #b27b43;
+            color: white;
+        }
+
+        a {
+            text-decoration:none;
+        }
+
+        a:hover{
+            text-decoration: underline;
+            color:#b27b43;
+        }
+    </style>
+</head>
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 text-white bg-dark">
+        <h4 class="text-center my-3">Edit</h4>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row m-2">
+                <div class="col-lg-4 form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-lg-4 form-group ">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="text-center mb-3 form-group">
+                <input type="submit" value="Save" class="btn save-button" /> | <a asp-controller="Home" asp-action="Index">Back to Home</a>
+            </div>
+        </form>
+    </div>
+</div>

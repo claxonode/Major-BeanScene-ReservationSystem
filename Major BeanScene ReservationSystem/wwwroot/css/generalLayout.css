@@ -1,0 +1,15 @@
+﻿
+body {
+    margin: 0;
+    background-image: url('/images/homescreen.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    color: white
+}
+.main-container {
+    opacity: 95%;
+    color: white;
+}

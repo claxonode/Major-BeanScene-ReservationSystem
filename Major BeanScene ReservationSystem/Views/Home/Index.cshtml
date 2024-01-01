@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <a asp-controller="Reservation" asp-action="Create">Make a Reservation</a>
+</div>
+ *@
+<head>
+    <link rel="stylesheet" href="~/css/homepage.css" asp-append-version="true">
+</head>
+
+<div id="mainBody">
+    <div id="mainBodyTitle">
+        <h1>Bean Scene</h1>
+        <a id="mainBodyReservationLink" asp-controller="Reservation" asp-action="Create">Make a Reservation</a>
+    </div>
+    <img src="~/images/homescreen.jpg" id="mainBodyImage" class="img-fluid" alt="Bean Scene Restaurant" />
+</div>
+
+@section Scripts {
+    <script>
+        $(".body").removeClass("container")
+    </script>
+}

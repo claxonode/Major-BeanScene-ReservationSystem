@@ -1,0 +1,18 @@
+﻿@model StaffCreateReservation 
+
+@await Html.PartialAsync("_CreateReservation", Model)
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+
+    <script src="~/js/staffReservationCreate.js"></script>
+}
+
+
+
+

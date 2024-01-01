@@ -1,0 +1,154 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+    //-Staff: a standard staff member can only capture and update reservation requests, access to scheduling sittings and viewing reports must be restricted
+}
+
+<h1>Employee Show Reservations</h1>
+<a asp-action="Create">Create Reservation</a>
+<a asp-action="SearchReservations">Search Reservations</a>
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <td>Full name</td>
+            <td>Guest count</td>
+            <td>Start time</td>
+            <td>Duration</td>
+            <td>Notes</td>
+            <td>Origin</td>
+            <td>Status</td>
+            <td>Sitting name</td>
+            <td>Sitting Start Time</td>
+            <td>Sitting End Time</td>
+            <td>Change status</td>
+            <td>Tables</td>
+            <td>Change Table</td>
+            <td>Change Origin</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var u in Model.ReservationsNotAdapted)
+        {
+            <tr>
+
+                <td>@(u.Person.FullName)</td>
+                <td>@u.Guests</td>
+                <td>@u.StartTime</td>
+                <td>@u.Duration</td>
+                @if (u.AdditionalNotes==null)
+                {
+                    <td class="text-danger">No additional notes</td>
+                }
+                else
+                {
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="popover" data-bs-title="Additional Info" data-bs-content="@u.AdditionalNotes">Click to show more</button>
+                    </td>
+                }
+                <td>@u.ReservationOrigin.Name</td>
+                <td>@u.ReservationStatus.Name</td>
+                <td>@u.Sitting.Name</td>
+                <td>@u.Sitting.StartTime.ToString("d/MM/yy h:mm tt")</td>
+                <td>@u.Sitting.EndTime.ToString("d/MM/yy h:mm tt")</td>
+
+                <td>
+                    <div class="btn-group dropend">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="dropdown">Change status</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="1">Pending</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="2">Confirmed</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="3">Cancelled</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="4">Seated</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeStatus" asp-route-reservationId="@u.Id" asp-route-reservationStatus="5">Completed</a></li>
+                        </ul>
+
+                    </div>
+                    
+
+                </td>
+                <td>
+                    @u.TablesToString
+                </td>
+                <td>
+                    <form>
+                        <select id="@Model.TableList" asp-for="TableId" asp-items="Model.TableList">
+                            <option value="">--Select a Table</option>
+                        </select>
+                        <input type="hidden" name="ReservationId" asp-for=@u.Id />
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="dropdown">Assign/Unassign tables</button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" asp-action="AssignTable">Assign Table</button></li>
+                                <li><button class="dropdown-item" asp-action="UnassignTable">Unassign Table</button></li>
+                                <li><button class="dropdown-item" asp-action="UnassignAllTables" asp-route-Id="@u.Id">Unassign All Tables</button></li>
+                            </ul>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <div class="btn-group dropend">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="dropdown">Change status</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-action="ChangeOrigin" asp-route-reservationId="@u.Id" asp-route-reservationOrigin="1">Online</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeOrigin" asp-route-reservationId="@u.Id" asp-route-reservationOrigin="2">Mobile App</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeOrigin" asp-route-reservationId="@u.Id" asp-route-reservationOrigin="3">In-person</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeOrigin" asp-route-reservationId="@u.Id" asp-route-reservationOrigin="4">Email</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangeOrigin" asp-route-reservationId="@u.Id" asp-route-reservationOrigin="5">Phone</a></li>
+                        </ul>
+
+                    </div>
+                </td>
+            </tr>
+            
+
+        }
+    </tbody>
+</table>
+https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-7.0
+                    https://getbootstrap.com/docs/5.3/components/dropdowns/#responsive-alignment
+<div class="modal" id="changeStatus">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5"></h1>
+            </div>
+            <div class="modal-body">
+                <div class="container text-center">
+ 
+                    
+                  
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const modal = document.getElementById('changeStatus')
+        if (modal) {
+            modal.addEventListener('show.bs.modal', event => {
+                //Button that trigger the modal
+                const button = event.relatedTarget
+                const personName = button.getAttribute('data-bs-id')
+
+                const modalTitle = modal.querySelector('.modal-title')
+                const modalBodyInput = modal.querySelector('.modal-body p')
+
+                modalTitle.textContent = `Change status of reservation for ${personName}`
+                modalBodyInput.textContent = personName
+            })
+        }
+        function myFunction() {
+            console.log("I clicked")
+        }
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
+}

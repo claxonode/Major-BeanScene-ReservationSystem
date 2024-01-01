@@ -1,0 +1,46 @@
+﻿@using System.Globalization;
+@model List<MongoDbOrdersAPI.Model.MenuItem>
+@{
+    ViewData["Title"] = "Menu";
+    var categories = Model.GroupBy(menuItem => menuItem.Category);
+}
+<head>
+    <link rel="stylesheet" href="~/css/generalLayout.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/menuItems.css" asp-append-version="true"/>
+</head>
+<div class="main-container bg-dark vh-100">
+    <br />
+    <h1 class="text-center ">Menu List</h1>
+    <br />
+    <div id="filterButtons" class="text-center p-4">
+        <button class="btn" onclick="filterSelection('All')">All</button>
+        @foreach (var category in categories) {
+            <button class="btn" onclick="filterSelection('@category.Key')">@category.Key</button>
+        }
+    </div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (var menuItem in Model)
+            {
+                <div class="col @menuItem.Category filterDiv">
+                    <div class="card h-100 text-bg-dark menu-item">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <div class=" d-flex justify-content-between">
+                                    <div class="fs-5">@menuItem.Name</div>
+                                    <div class="fs-5">@menuItem.Price.ToString("C2",CultureInfo.CurrentCulture)</div>
+                                </div>
+                            </div>
+                            <div class="card-text">@menuItem.Description</div>
+                            <div class="card-text"><span class="fw-bold">Ingredients: </span>@String.Join(", ",menuItem.Ingredients)</div>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/menu.js"></script>
+}

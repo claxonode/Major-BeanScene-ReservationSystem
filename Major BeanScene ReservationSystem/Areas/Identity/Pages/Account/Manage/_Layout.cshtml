@@ -1,0 +1,50 @@
+﻿@{
+    if (User.IsInRole("Manager"))
+    {
+        Layout = "/Areas/Manager/Views/Shared/_Layout.cshtml";
+    }
+    else if (User.IsInRole("Staff"))
+    {
+        Layout = "/Areas/Staff/Views/Shared/_Layout.cshtml";
+    }
+    else if (User.IsInRole("Member"))
+    {
+        Layout = "/Areas/Member/Views/Shared/_Layout.cshtml";
+    }
+    else if (User.IsInRole(""))
+    {
+        Layout = "ParentLayout";
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+<head>
+    <link rel="stylesheet" href="~/css/bodyStylingForAllPages.css" />
+</head>
+
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 bg-dark">
+        <h1>Manage your account</h1>
+
+        <div>
+            <h2>Change your account settings</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    <partial name="_ManageNav" />
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

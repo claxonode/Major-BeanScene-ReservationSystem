@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Menu Items",
+
+  "type": "object",
+
+  "properties": {
+    "name": {
+      "_id": "ObjectId()",
+      "name": "String",
+      "description": "String",
+      "price": "double",
+      "category": "string",
+      "ingredients": ["string"],
+      "dietary": ["string"]
+    }
+  }
+}
+

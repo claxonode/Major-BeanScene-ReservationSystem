@@ -1,0 +1,125 @@
+﻿@model List<Major_BeanScene_ReservationSystem.Data.Models.Reservation>
+@{
+    ViewData["Title"] = "MyReservations";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/myReservations.css" asp-append-version="true" />
+    <style>
+        body {
+            margin: 0;
+            background-image: url('/images/homescreen.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .main-container {
+            opacity: 95%;
+        }
+
+        .container  a{
+            text-decoration:none;
+        }
+        .container  a:hover{
+            color:#b27b43;
+            text-decoration:underline;
+        }
+    </style>
+</head>
+
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="main-container flex-grow-1 text-white bg-dark">
+        <h3 class="text-center my-3">My Reservations</h3>
+        <div class="container border-top">
+            @if (Model == null)
+            {
+                <div class="row">
+                    <strong class="text-center col-md-12 my-2">You currently dont have any reservations.</strong>
+                </div>
+
+                <div class="row">
+                    <a class="text-center " asp-action="Create" asp-controller="Reservation" asp-area="">Would you like to create one?</a>
+                </div>
+            }
+            else
+            {
+                @foreach (var r in Model)
+                {
+                    if (r.Guest != null)
+                    {
+                        <div class="tile m-2 border border-dark">
+                            <div class="tile-content-restaurant col-md-12">
+                                @*Need to be able to use logo*@
+                                <img src="~/images/BeanSceneLogo.png" style="height:25px;width:30px;" alt=" Bean Scene Logo" />
+                                <strong>Bean Scene</strong>
+                            </div>
+
+                            <a asp-action="Confirmation" asp-controller="Reservation" asp-route-id="@r.Id" asp-area="" class="reservation-link text-decoration-none bg-primary" title="Click to view reservation details">
+                                <div class="tile-content-reservation">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="text-center"><strong>DATE & TIME:</strong> @(r.StartTime.ToString("dddd, d\" of \"MMMM h:mm tt") + " - " + r.StartTime.AddMinutes(r.Duration).ToString("h:mm tt"))</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <p class="col-md-12"><strong>Reserved For:</strong> @r.Guest.LastName.ToUpper(), @r.Guest.FirstName.ToUpper()</p>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <p><strong>REFERENCE NUMBER:</strong> @r.Id</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <p><strong>RESERVED BY:</strong> @r.Person.LastName.ToUpper(), @r.Person.FirstName.ToUpper()</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <p><strong>GUESTS:</strong> @r.Guests</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tile m-2 border border-dark">
+                            <div class="tile-content-restaurant col-md-12">
+                                @*Need to be able to use logo*@
+                                <img src="~/images/BeanSceneLogo.png" style="height:25px;width:30px;" alt=" Bean Scene Logo" />
+                                <strong>Bean Scene</strong>
+                            </div>
+
+                            <a asp-action="Confirmation" asp-controller="Reservation" asp-route-id="@r.Id" asp-area="" class="reservation-link text-decoration-none bg-primary" title="Click to view reservation details">
+                                <div class="tile-content-reservation">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="text-center"><strong>DATE & TIME:</strong> @(r.StartTime.ToString("dddd, d\" of \"MMMM h:mm tt") + " - " + r.StartTime.AddMinutes(r.Duration).ToString("h:mm tt"))</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <p><strong>REFERENCE NUMBER:</strong> @r.Id</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <p><strong>RESERVED BY:</strong> @r.Person.LastName.ToUpper(), @r.Person.FirstName.ToUpper()</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <p><strong>GUESTS:</strong> @r.Guests</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                }
+            }
+        </div>
+    </div>
+</div>
